@@ -1,0 +1,197 @@
+body,
+html {
+    height: 100%;
+}
+
+section {
+    min-height: 100%; /* It will take up the entire area. height of Webpage */
+    padding: 5%;
+}
+
+.mycontent {      /* Imp Styling Creates a Box Inside Section. */
+    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #000;
+    width: 100%;
+    padding: 50px 5px;
+    border-radius: 20px;
+    border: 2px #ddd solid;
+}
+
+.Edu {      /* Imp Styling Creates a Box Inside Section. */
+    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #000;
+    width: 100%;
+   /* padding: 50px 0px; */
+    border-radius: 20px;
+    border: 2px #ddd solid;
+}
+
+.mycontent h2 {
+    text-transform: uppercase;
+}
+
+#home {   /*    Backgroung Setting */
+         /* Background Image URL */
+    background: url("https://upload.wikimedia.org/wikipedia/commons/3/3e/Paddyatshamanur.jpg"); /* url(http://lorempixel.com/400/200/city/) no-repeat center; */
+    background-size: cover;  /* Covering the Complete Backgroung */
+}
+
+#contact {
+    background-color: darkkhaki;
+}
+
+#Demographics {
+    background-color: bisque;
+}
+
+#Transport {
+    background-color: darkseagreen;
+}
+
+#Education {
+    background-color: azure;
+}
+
+.navbutton {
+    
+}
+
+body {
+    padding-top: 50px;
+}
+
+.navone {
+    width: 100%;
+    height: 50px;
+    top: 0;
+    left: 0;
+    position: fixed; /* Sticking Navigation Bar */
+    background: #000000;
+    color: #fff;
+    overflow: hidden;
+    margin: 0;
+}
+
+.navone > ul {  /* Makes the List of nontent in Navigation bar as Horizontal */
+    margin: 0;
+    padding: 0;
+}
+
+#footer{
+     
+    padding:10px;
+    border-top: 1px solid black;
+    color:#EEEEEE;
+    background-color: #211F22;
+    text-align: center;
+     
+      
+}
+
+.navone > li {
+    list-style-type: none;
+    display: inline-block;
+    width: 100px;
+    padding: 0;
+}
+
+.navone > li > a {  /* Saying that it is applicable to "li" & "a" */
+    display: block;
+    padding: 15px 0;
+    text-decoration: none; /* It will remove the Under Line */
+    text-align: center;
+    font-weight: bold;
+    background: #222;
+    color: aliceblue;
+}
+
+.navone > li > a:hover {
+    background: blue;
+    outline: none;
+}
+
+.navone .active {  /* Active Items Dark Type of Blue */
+    background-color: cornflowerblue;
+}
+
+.myimage {   /* Setting the Image */
+    float: left;
+    padding: 5px;
+}
+
+#contact-form {
+    padding: 20px;
+    margin: 20px auto;
+    border: 1px solid #eeeeee;
+}
+
+#contact-form textarea {
+    height: 200px;
+    width: 300px;
+}
+
+#contact-form label {
+    display: block;
+}
+
+#contact-form input,
+#contact-form textarea {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.navtwo {
+    display: none;
+}
+
+@media (max-width:1100px) {}
+
+@media (max-width:780px) {}
+
+@media (max-width:480px) {
+    img {
+        width: 100%;
+    }
+    .navone {
+        display: none;
+    }
+    .navtwo {
+        display: block;
+        width: 100%;
+        height: 50px;
+        top: 0;
+        left: 0;
+        position: fixed;
+        background: #000000;
+        color: #fff;
+        overflow: hidden;
+        margin: 0;
+    }
+    .navtwo > li {
+        width: 15%;
+        list-style-type: none;
+        display: inline-block;
+    }
+    .navtwo > li > a {
+        display: block;
+        padding: 15px 0;
+        text-decoration: none;
+        text-align: center;
+        font-weight: bold;
+        background: #222;
+        color: aliceblue;
+    }
+    .navtwo > li > a:hover {
+        background: blue;
+        outline: none;
+    }
+    .navtwo .active {
+        background-color: cornflowerblue;
+    }
+    #contact-form textarea {
+        height: 200px;
+        width: 100%;
+    }
+}

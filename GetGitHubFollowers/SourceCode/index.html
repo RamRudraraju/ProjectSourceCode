@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>   
+<html ng-app="myapp">  
+	<head>
+		
+		<title>Rama Shipt Project</title>
+        <!-- Link to Include the AngularJS Functinality -->
+		<script  
+                
+			src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"> 
+                
+        </script>
+         
+            <script type="text/javascript">
+                
+                       var app = angular.module("myapp", []); // Angular Module Creation
+
+                       var followersCount;
+                       var numberOfLoops;
+                       var pageSize;
+
+                            app.controller("myCtrl", function( $http, $scope) // Controller Creation  
+                                {                                
+                                    $scope.persons = false;         
+
+                                    var vm = this;
+                                    vm.loading1 = false;
+
+                                    $scope.dataview = false;        
+                                    $scope.error = false;
+                                    $scope.person = [];
+                                    $scope.page;
+                                
+                                    // Function for Fetching UserName, Location and Followers
+                                    // It was called when User Clicked on "Search !" Button
+                                    vm.fetchData = function(user)    // Manual Call Functions
+                                    { 
+                                            	$scope.person.length = 0;
+                                                vm.loading = true;
+                                               // GitHub API to get data associated with USERNAME value enterred by user 
+                                                $http.get('https://api.github.com/users/' + user.name).then(
+                                                function(res) {/* The Obtained data from the GitHub is in the form of JSON and it is                  stored in "res" */ 
+
+                                                $scope.persons = false;
+                                                console.log(res);
+                                                $scope.dataview = true;/* To activate the Tabular portion containing: Name,                               Location, Followers and Show Followers in HTML (Line: 132) */
+
+                                                $scope.response = angular.fromJson(res.data);
+                                                    console.log($scope.response);
+                                               /*Extracting the Name, Location and Followers */
+                                                vm.loading = false;
+                                                vm.name = $scope.response.name || 'Not Found';
+                                                vm.location = $scope.response.location || 'Not Found';
+                                                vm.followers = $scope.response.followers || 'Not Found';
+                                                                  }
+
+                                                , function(res) {
+                                                    $scope.showerror = true;
+                                                                }                        )
+                                      };
+
+                                           // Function to Showes First 100 Followers
+                                           // It will be called when ever user clicked on 
+                                      vm.fetchusers = function(user)
+                                      { 
+                                                vm.loading1 = true;
+                                                $scope.persons = true; /* To activate the Tabular portion that displayes the list of                            Followers (Line: 181)*/
+                                                pageSize = 100;   /* Here i am chosing to display 100 followers first 
+                                                                   if i put 50 it will display first 50 */ 
+                                            // Next set of followers are added to the Initial list when the user clicks on "Load More" 
+
+                                          
+
+                                                currentPage =($scope.person.length/pageSize) +1 ;
+
+                                                $http.get('https://api.github.com/users/' + user.name + '/followers?per_page='+pageSize+'&page='+ currentPage).then(function(result)  
+                                                {/* GitHub API to display first 100 followers
+                                                
+                                                   Ref: https://stackoverflow.com/questions/32935242/github-api-user-followers-paging*/
+                                                    vm.loading1 = false;
+                                                    console.log(result);
+                                                    
+                                                     /* Logic to pust the followers Username data into an array "person" */
+
+                                                    for ( var i = 0; i <= vm.followers; i++)
+                                                    {
+                                                        $scope.response = angular.fromJson(result.data[i]);
+                                                        $scope.finalresp = angular.fromJson($scope.response);
+                                                        if ($scope.finalresp){
+                                                            $scope.person.push($scope.finalresp.login);
+                                                        }
+                                                        
+                                                    }
+                                                })
+                                     };
+                                
+                              });
+                
+            </script>
+	</head>
+
+	<body ng-controller="myCtrl as vm" bgcolor="lightyellow"> 
+       
+	<br/>
+	<br/>
+            <center>
+                
+           
+
+            <font color="light blue" size="4">                      <!-- HTML portion to show the "Enter GitHub Username" -->
+                <b>Enter GitHub Username:&nbsp;&nbsp;&nbsp;&nbsp;</b>
+            </font>
+
+            <input type="text" ng-model="user.name" name="enter" placeholder="Username" />     <!-- Text field where the User can Enter USERNAME -->
+
+            <button type="button" ng-click="vm.fetchData(user)">    <!--SEARCH Button and its connection to "fetchData" Function-->
+                Search&nbsp;!
+            </button>
+
+           
+                
+                
+
+            <br />
+            <br />
+            <br />
+        
+            <label ng-show="showerror">
+                {{error}}
+            </label>
+
+            <table ng-show="dataview">       <!-- This table is activated when dataview = true (Please Cheak Line: 46) 
+                                                  It happends only after User Clicks on "Search!" Button-->
+                <tr height="45">                           <!-- To display the Name -->
+                    <td width="60">
+                    <font color="purple"><b>Name</b></font>	
+                    </td>
+                    <td>
+                        {{vm.name}}     
+                    </td>
+                </tr>
+
+                <tr height="45">                         <!-- To display the Location -->
+                    <td width="100">
+                        <font color="purple"><b>Location</b></font>	
+                    </td>
+                    <td>
+                        {{vm.location}}
+                    </td>
+                </tr>
+
+                <tr height="45">                          <!-- To display the Followers -->
+                    <td width="60">
+                        <font color="purple"><b>Followers</b></font>	
+                    </td>
+                    <td width="60">
+                        {{vm.followers}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>                                   <!-- To display the "Show Followers Button" -->
+                    <td>                           
+                        <button type="button" ng-click="vm.fetchusers(user)"> <!-- Linking the Button with function                                                           (fetchusers) that showes the followers list   -->
+                            Show Followers
+                        </button>
+                    </td>
+                </tr>
+                
+               
+            </table>
+        
+            <h4 ng-if="vm.loading1==true">                      <!-- It will show a Loading image while loading the followers -->
+
+                <img src="load.gif" width="50" height="50"> </img>
+            </h4>
+
+            <br/>
+            <br/>
+
+            <table  ng-show="persons">                <!-- This table is activated when person = true (Please cheak Line: 67)
+                                                           It happends only after User Clicks on "Show Followers" Button-->
+               <tr>
+                   <td>
+                       <h3> List Of Followers </h3>
+                       <ol>
+                            <li ng-repeat="x in person" >    <!-- person is the array containing follower user names -->
+                                
+                               <h4> {{x}} </h4>         <!-- Displaying the followers USERNAMES -->
+                            </li>
+                       </ol>
+
+                       <button type="button" ng-click="vm.fetchusers(user)">   <!-- Load More button to fetch next set of                                                                      usernames -->
+                            Load More
+                        </button>
+                   </td>
+               </tr>
+
+            </table>
+            
+    </body>
+
+</html>
